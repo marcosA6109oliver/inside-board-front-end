@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Componentes</title>
+    <link rel="shortcut icon" href="icons/fav-icon.png" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../css/colors.css" rel="stylesheet">
+    <link href="../css/typography.css" rel="stylesheet">
+    <link href="../css/icons.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container-fluid pd-y-24">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="top-bar">
+                        <div class="logo">
+                            <h1 class="font-caption-large d-block d-lg-flex lh-lg">
+                                <span class="font-size-title-small">Hub de Tech</span>
+                                <span class="traco d-none d-lg-block"></span>
+                                <br class="d-block d-lg-none">
+                                <span>Inside Board</span>
+                            </h1>
+                        </div>
+                        <div class="user-info">
+                            <div class="avatar-container font-caption-medium">
+                                <div class="avatar bg-feedback-green">
+                                    <span class="color-primary-white">MN</span>
+                                </div>
+                                <div class="avatar-details d-none d-lg-block">
+                                    <span class="avatar-name">Marcos Nascimento</span>
+                                </div>
+                                <div class="dropdown">
+                                    <i class="btn color-primary-white pd-0">
+                                        <i class="material-symbols-outlined font-size-large">expand_more</i>
+                                    </i>
+                                    <div class="dropdown-content align-items-center gap-2 color-primary-dark-1">
+                                        <i class="material-symbols-outlined font-size-large">exit_to_app</i>
+                                        <a href="#" class="color-primary-dark-1">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="container-fluid navigation pd-t-24 pd-b-16">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-4 col-sm-5 col-md-8 col-lg-9">
+                    <div class="menu-toggle d-lg-none">
+                        <button class="btn-menu">
+                            <i class="material-symbols-outlined font-size-title-medium color-primary-white">menu</i>
+                        </button>
+                    </div>
+                    <ul class="menu d-none d-lg-flex">
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">grid_view</i>
+                                <span class="tab-label font-caption-large">Quadro</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">list</i>
+                                <span class="tab-label font-caption-large">Pauta</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">settings</i>
+                                <span class="tab-label font-caption-large">Configurações</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">dashboard</i>
+                                <span class="tab-label font-caption-large">Painel administrativo</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">analytics</i>
+                                <span class="tab-label font-caption-large">Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-8 col-sm-7 col-md-4 col-lg-3">
+                    <div class="input-container search-container font-caption-large color-primary-white">
+                        <div class="input-wrapper bg-primary-dark-3 bd-w-0">
+                            <i class="material-symbols-outlined">search</i>
+                            <input type="text" id="searchInput2" class="input-icon" placeholder="Busca">
+                            <div class="clear-icon">
+                                <i class="material-symbols-outlined" style="display: none;">clear</i>
+                            </div>
+                        </div>
+                        <ul class="results-container bg-primary-dark-3 bd-w-0"></ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="mobile-menu-overlay d-lg-none" style="display: none;">
+            <div class="mobile-menu-container">
+                <button class="btn-close-menu bg-primary-white pd-4 d-flex">
+                    <i class="material-symbols-outlined color-primary-dark-1 font-size-large">close</i>
+                </button>
+                <ul class="mobile-menu">
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">grid_view</i>
+                            <span class="tab-label font-caption-large">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">list</i>
+                            <span class="tab-label font-caption-large">Pauta</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">list</i>
+                            <span class="tab-label font-caption-large">Requisições</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div>
+            <button class="btn-icon btn-prima corner-4">
+                <i class="material-symbols-outlined"> send_to_mobile </i>
+                <span>Label</span>
+            </button>
+        </div>
+        <div>
+            <button class="btn-icon btn-prima corner-4 disabled">
+                <i class="material-symbols-outlined"> send_to_mobile </i>
+                <span>Label</span>
+            </button>
+        </div>
+        <div>
+            <button class="btn-icon btn-prima corner-4 warning">
+                <i class="material-symbols-outlined"> send_to_mobile </i>
+                <span>Label</span>
+            </button>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div>
+            <div class="switch">
+                <input type="checkbox" id="toggleSwitch" class="switch-input">
+                <label for="toggleSwitch" class="switch-label">
+                    <span class="switch-slider"></span>
+                </label>
+            </div>
+        </div>
+        <div>
+            <div class="switch switch-disabled">
+                <input type="checkbox" id="toggleSwitch1" class="switch-input" disabled>
+                <label for="toggleSwitch1" class="switch-label">
+                    <span class="switch-slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div>
+            <div class="avatar bg-feedback-green font-caption-medium">
+                <span class="color-primary-white">MP</span>
+            </div>
+        </div>
+        <div>
+            <div class="avatar-container font-caption-medium ">
+                <div class="avatar bg-feedback-green">
+                    <span class="color-primary-white">MP</span>
+                </div>
+                <div class="avatar-details">
+                    <span class="avatar-name">Marcus Pereira</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start align-items-center d-flex gap-2">
+        <div>
+            <div class="avatar-16 bg-feedback-green font-size-caption-small">
+                <span class="color-primary-white">MP</span>
+            </div>
+        </div>
+        <div>
+            <div class="avatar-container font-size-caption-small">
+                <div class="avatar-16 bg-feedback-green">
+                    <span class="color-primary-white">MP</span>
+                </div>
+                <div class="avatar-details">
+                    <span class="avatar-name">Marcus Pereira</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div>
+            <div class="tab">
+                <i class="material-symbols-outlined">format_list_bulleted</i>
+                <span class="tab-label font-caption-large">Tab</span>
+            </div>
+        </div>
+        <div>
+            <div class="tab">
+                <i class="material-symbols-outlined">format_list_bulleted</i>
+                <span class="tab-label font-caption-large">Tab</span>
+            </div>
+        </div>
+        <div>
+            <div class="tab selected">
+                <i class="material-symbols-outlined">format_list_bulleted</i>
+                <span class="tab-label font-caption-large">Tab</span>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div>
+            <div class="tag-icon corner-4 bd-w-1 bd-color-primary-yellow bg-primary-yellow color-primary-dark-1 font-caption-large">
+                <i class="material-symbols-outlined"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+        <div>
+            <div class="tag-icon corner-4 bg-primary-white color-primary-dark-1 bd-w-1 font-caption-large">
+                <i class="material-symbols-outlined"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+        <div>
+            <div class="tag-icon corner-4 font-caption-large">
+                <i class="material-symbols-outlined"> calendar_today </i>
+                <span class="tag-label font-caption-large">Tag</span>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div>
+            <div class="tag-icon corner-4 bd-w-1 bd-color-primary-yellow tag-medium bg-primary-yellow color-primary-dark-1 font-caption-medium">
+                <i class="material-symbols-outlined font-size-small"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+        <div>
+            <div class="tag-icon corner-4 tag-medium bg-primary-white color-primary-dark-1 bd-w-1 font-caption-medium">
+                <i class="material-symbols-outlined font-size-small"> calendar_today </i>
+                <span class="tag-label font-caption-medium">Tag</span>
+            </div>
+        </div>
+        <div>
+            <div class="tag-icon corner-4 tag-medium font-caption-medium">
+                <i class="material-symbols-outlined font-size-small"> calendar_today </i>
+                <span class="tag-label font-caption-medium">Tag</span>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div>
+            <div class="tag-icon corner-4 bd-w-1 bd-color-primary-yellow tag-small bg-primary-yellow color-primary-dark-1 font-caption-small">
+                <i class="material-symbols-outlined font-size-caption-medium"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+        <div>
+            <div class="tag-icon corner-4 tag-small bg-primary-white color-primary-dark-1 bd-w-1 font-caption-small">
+                <i class="material-symbols-outlined font-size-caption-medium"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+        <div>
+            <div class="tag-icon corner-4 tag-small font-caption-small">
+                <i class="material-symbols-outlined font-size-caption-medium"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div>
+            <div class="tag-icon corner-4 bd-w-1 bd-color-primary-gray-medium bg-primary-gray-medium color-primary-gray-dark-1 font-caption-large disabled">
+                <i class="material-symbols-outlined"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+        <div>
+            <div class="tag-icon corner-4 bg-primary-white color-primary-gray-dark-1 bd-w-1 font-caption-large disabled">
+                <i class="material-symbols-outlined"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+        <div>
+            <div class="tag-icon corner-4 color-primary-gray-dark-1 font-caption-large disabled">
+                <i class="material-symbols-outlined"> calendar_today </i>
+                <span class="tag-label font-caption-large">Tag</span>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div>
+            <div class="tag-icon corner-4 bd-w-1 bd-color-primary-gray-medium tag-medium bg-primary-gray-medium color-primary-gray-dark-1 font-caption-medium disabled">
+                <i class="material-symbols-outlined font-size-small"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+        <div>
+            <div class="tag-icon corner-4 tag-medium bg-primary-white color-primary-gray-dark-1 bd-w-1 font-caption-medium disabled">
+                <i class="material-symbols-outlined font-size-small"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+        <div>
+            <div class="tag-icon corner-4 tag-medium color-primary-gray-dark-1 font-caption-medium disabled">
+                <i class="material-symbols-outlined font-size-small"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div>
+            <div class="tag-icon corner-4 bd-w-1 bd-color-primary-gray-medium tag-small bg-primary-gray-medium color-primary-gray-dark-1 font-caption-small disabled">
+                <i class="material-symbols-outlined font-size-caption-medium"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+        <div>
+            <div class="tag-icon corner-4 tag-small bg-primary-white color-primary-gray-dark-1 bd-w-1 font-caption-small disabled">
+                <i class="material-symbols-outlined font-size-caption-medium"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+        <div>
+            <div class="tag-icon corner-4 tag-small color-primary-gray-dark-1 font-caption-small disabled">
+                <i class="material-symbols-outlined font-size-caption-medium"> calendar_today </i>
+                <span class="tag-label">Tag</span>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div class="checkbox-container">
+            <input type="checkbox" id="checkbox1" class="custom-checkbox">
+            <label for="checkbox1" class="checkbox-label">Label</label>
+        </div>
+        <div class="checkbox-container">
+            <input type="checkbox" id="checkbox2" class="custom-checkbox" checked>
+            <label for="checkbox2" class="checkbox-label">Label</label>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div class="checkbox-container disabled">
+            <input type="checkbox" id="checkbox3" class="custom-checkbox" disabled>
+            <label for="checkbox3" class="checkbox-label">Label</label>
+        </div>
+        <div class="checkbox-container disabled checked">
+            <input type="checkbox" id="checkbox4" class="custom-checkbox" disabled checked>
+            <label for="checkbox4" class="checkbox-label">Label</label>
+        </div>
+    </div>
+    <div class="container mg-t-24 d-flex gap-2">
+        <div class="w-100">
+            <div class="input-container search-container color-primary-dark-1 font-caption-large">
+                <label for="searchInput1" class="input-label bg-primary-white">Busca</label>
+                <div class="input-wrapper bg-primary-white">
+                    <i class="material-symbols-outlined">search</i>
+                    <input type="text" id="searchInput1" class="input-icon">
+                    <div class="clear-icon">
+                        <i class="material-symbols-outlined" style="display: none;">clear</i>
+                    </div>
+                </div>
+                <ul class="results-container bg-primary-white"></ul>
+            </div>
+        </div>
+        <div class="w-100">
+            <div class="input-container search-container font-caption-large color-primary-white">
+                <label for="searchInput2" class="input-label bg-primary-dark-1">Busca</label>
+                <div class="input-wrapper bg-primary-dark-1">
+                    <i class="material-symbols-outlined">search</i>
+                    <input type="text" id="searchInput2" class="input-icon">
+                    <div class="clear-icon">
+                        <i class="material-symbols-outlined" style="display: none;">clear</i>
+                    </div>
+                </div>
+                <ul class="results-container bg-primary-dark-1"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-1">
+        <div>
+            <button class="btn pd-8 corner-4 bg-feedback-green color-primary-white font-small">
+                <i class="material-symbols-outlined"> content_paste </i>
+            </button>
+        </div>
+        <div>
+            <div class="btn pd-8 corner-4 bg-secondary-blue color-primary-white font-small">
+                <i class="material-symbols-outlined"> link </i>
+            </div>
+        </div>
+        <div>
+            <button class="btn pd-8 corner-4 bg-feedback-red color-primary-white font-small">
+                <i class="material-symbols-outlined"> close </i>
+            </button>
+        </div>
+    </div>
+    <div class="container mg-t-24 d-flex gap-2">
+        <div class="w-100">
+            <div class="input-container color-primary-dark-1 font-caption-large">
+                <label for="searchInput1" class="input-label bg-primary-white">Seleção</label>
+                <div class="input-wrapper bg-primary-white">
+                    <select class="font-caption-large styledSelect">
+                        <option value="default" selected disabled hidden>Escolha uma opção</option>
+                        <option value="1">Opção 1</option>
+                        <option value="2">Opção 2</option>
+                        <option value="3">Opção 3</option>
+                    </select>
+                    <i class="material-symbols-outlined icon-select"> expand_more </i>
+                </div>
+            </div>
+        </div>
+        <div class="w-100">
+            <div class="input-container font-caption-large color-primary-white">
+                <label for="searchInput2" class="input-label bg-primary-dark-1">Seleção</label>
+                <div class="input-wrapper bg-primary-dark-1">
+                    <select class="font-caption-large">
+                        <option value="default" selected disabled hidden>Escolha uma opção</option>
+                        <option value="1">Opção 1</option>
+                        <option value="2">Opção 2</option>
+                        <option value="3">Opção 3</option>
+                    </select>
+                    <i class="material-symbols-outlined icon-select"> expand_more </i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div class="btn-group g-1">
+            <button class="btn-icon btn-secon">
+                <i class="material-symbols-outlined">send_to_mobile</i>
+                <span>Minhas tarefas</span>
+            </button>
+            <button class="btn-icon btn-secon">
+                <i class="material-symbols-outlined">add_circle_outline</i>
+                <span>Novo quadro</span>
+            </button>
+            <button class="btn-icon btn-secon">
+                <i class="material-symbols-outlined">ios_share</i>
+                <span>Exportar</span>
+            </button>
+            <button class="btn-icon btn-secon">
+                <i class="material-symbols-outlined">filter_alt</i>
+                <span>Exibir</span>
+            </button>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div class="input-container font-caption-large font-family-helvetica">
+            <label class="input-label bg-primary-white">Label</label>
+            <div class="input-wrapper bg-primary-white">
+                <input type="text" id="#" required>
+            </div>
+        </div>
+        <div class="input-container font-caption-large font-family-helvetica">
+            <label class="input-label bg-primary-white">Label</label>
+            <div class="input-wrapper bg-primary-white">
+                <input type="text" id="#" required>
+            </div>
+        </div>
+        <div class="input-container font-caption-large font-family-helvetica">
+            <label class="input-label bg-primary-white">Label</label>
+            <div class="input-wrapper bg-primary-white">
+                <input type="text" id="#" required>
+            </div>
+        </div>
+    </div>
+    <div class="container mg-t-24 justify-content-start d-flex gap-2">
+        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+            <label class="input-label bg-primary-white">Label</label>
+            <div class="input-wrapper">
+                <i class="material-symbols-outlined color-primary-gray-dark"> file_copy </i>
+                <input type="text" id="#" class="input-icon">
+            </div>
+        </div>
+        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+            <label class="input-label bg-primary-white">Label</label>
+            <div class="input-wrapper">
+                <i class="material-symbols-outlined color-primary-gray-dark"> file_copy </i>
+                <input type="text" id="#" class="input-icon">
+            </div>
+        </div>
+        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+            <label class="input-label bg-primary-white">Label</label>
+            <div class="input-wrapper">
+                <i class="material-symbols-outlined color-primary-gray-dark"> file_copy </i>
+                <input type="text" id="#" class="input-icon">
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>

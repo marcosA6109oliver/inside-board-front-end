@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figmails</title>
+    <link rel="shortcut icon" href="icons/fav-icon.png" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../../css/colors.css" rel="stylesheet">
+    <link href="../../css/typography.css" rel="stylesheet">
+    <link href="../../css/icons.css" rel="stylesheet">
+    <link href="../../css/main.css" rel="stylesheet">
+    <style>
+        @media (max-width: 991px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .menu {
+                display: none;
+            }
+
+            .mobile-menu-overlay {
+                position: fixed;
+                width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.8);
+                top: 0;
+                left: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+                /* Certifique-se de que o menu fica no topo */
+            }
+
+            .btn-menu,
+            .btn-close-menu {
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+                display: inline-flex;
+            }
+
+            .mobile-menu {
+                list-style: none;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .mobile-menu .nav-item {
+                margin: 20px 0;
+                text-align: center;
+            }
+
+            .btn-close-menu {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+
+            .navigation {
+                padding: var(--space-16) var(--space-24) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container-fluid pd-y-24">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="top-bar">
+                        <div class="logo">
+                            <h1 class="font-caption-large d-block d-lg-flex lh-lg">
+                                <span class="font-size-title-small">Hub de Tech</span>
+                                <span class="traco d-none d-lg-block"></span>
+                                <br class="d-block d-lg-none">
+                                <span>Inside Board</span>
+                            </h1>
+                        </div>
+                        <div class="user-info">
+                            <div class="avatar-container font-caption-medium">
+                                <div class="avatar bg-feedback-green">
+                                    <span class="color-primary-white">MN</span>
+                                </div>
+                                <div class="avatar-details d-none d-lg-block">
+                                    <span class="avatar-name">Marcos Nascimento</span>
+                                </div>
+                                <div class="dropdown">
+                                    <i class="btn color-primary-white pd-0">
+                                        <i class="material-symbols-outlined font-size-large">expand_more</i>
+                                    </i>
+                                    <div class="dropdown-content align-items-center gap-2 color-primary-dark-1">
+                                        <i class="material-symbols-outlined font-size-large">exit_to_app</i>
+                                        <a href="#" class="color-primary-dark-1">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="container-fluid navigation pd-t-24 pd-b-16">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-4 col-sm-5 col-md-8 col-lg-9">
+                    <div class="menu-toggle d-lg-none">
+                        <button class="btn-menu">
+                            <i class="material-symbols-outlined font-size-title-medium color-primary-white">menu</i>
+                        </button>
+                    </div>
+                    <ul class="menu d-none d-lg-flex">
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">grid_view</i>
+                                <span class="tab-label font-caption-large">Quadro</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">list</i>
+                                <span class="tab-label font-caption-large">Pauta</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">settings</i>
+                                <span class="tab-label font-caption-large">Configurações</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">dashboard</i>
+                                <span class="tab-label font-caption-large">Painel administrativo</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">analytics</i>
+                                <span class="tab-label font-caption-large">Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-8 col-sm-7 col-md-4 col-lg-3">
+                    <div class="input-container search-container font-caption-large color-primary-white">
+                        <div class="input-wrapper bg-primary-dark-3 bd-w-0">
+                            <i class="material-symbols-outlined">search</i>
+                            <input type="text" id="searchInput2" class="input-icon" placeholder="Busca">
+                            <div class="clear-icon">
+                                <i class="material-symbols-outlined" style="display: none;">clear</i>
+                            </div>
+                        </div>
+                        <ul class="results-container bg-primary-dark-3 bd-w-0"></ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="mobile-menu-overlay d-lg-none" style="display: none;">
+            <div class="mobile-menu-container">
+                <button class="btn-close-menu bg-primary-white pd-4 d-flex">
+                    <i class="material-symbols-outlined color-primary-dark-1 font-size-large">close</i>
+                </button>
+                <ul class="mobile-menu">
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">grid_view</i>
+                            <span class="tab-label font-caption-large">Quadro</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">list</i>
+                            <span class="tab-label font-caption-large">Pauta</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">settings</i>
+                            <span class="tab-label font-caption-large">Configurações</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">dashboard</i>
+                            <span class="tab-label font-caption-large">Painel administrativo</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">analytics</i>
+                            <span class="tab-label font-caption-large">Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <script src="js/script.js"></script>
+</body>
+</html>

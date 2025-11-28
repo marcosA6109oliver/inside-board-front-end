@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figmails | Preview</title>
+    <link rel="shortcut icon" href="icons/fav-icon.png" type="image/x-icon">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/colors.css" rel="stylesheet">
+    <link href="css/typography.css" rel="stylesheet">
+    <link href="css/icons.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <style>
+        .board {
+            display: flex;
+            overflow-x: auto;
+            height: 100vh;
+            box-sizing: border-box;
+            gap: 16px;
+            position: relative;
+        }
+
+        .column {
+            max-height: 100%;
+            overflow-y: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card {
+            max-width: 260px;
+        }
+
+        .content:hover {
+            overflow-y: auto;
+        }
+
+        .content-head {
+            display: flex;
+            flex-flow: column;
+            gap: 16px;
+        }
+
+        .content {
+            flex: 1 1 auto;
+            display: flex;
+            flex-flow: column;
+            overflow: hidden;
+            gap: 16px;
+        }
+
+        .tag-hidden {
+            display: none;
+        }
+
+        .columns-list {
+            flex: 1 1 0px;
+            min-height: 0px;
+            min-width: 0px;
+            display: flex;
+            flex-flow: row;
+            overflow: auto hidden;
+        }
+
+        .columns-list>li {
+            flex: 0 0 276px;
+            min-height: 0px;
+            min-width: 0px;
+            display: flex;
+            flex-flow: column;
+        }
+
+        /* Estilos do Modal */
+        .modal {
+            display: none;
+            /* Escondido por padrão */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 920px;
+            /* Largura do Modal */
+            border-radius: 8px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container-fluid pd-y-24">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="top-bar">
+                        <div class="logo">
+                            <h1 class="font-caption-large d-block d-lg-flex lh-lg">
+                                <span class="font-size-title-small">Hub de Tech</span>
+                                <span class="traco d-none d-lg-block"></span>
+                                <br class="d-block d-lg-none">
+                                <span>Inside Board</span>
+                            </h1>
+                        </div>
+                        <div class="user-info">
+                            <div class="avatar-container font-caption-medium">
+                                <div class="avatar bg-feedback-green">
+                                    <span class="color-primary-white">MN</span>
+                                </div>
+                                <div class="avatar-details d-none d-lg-block">
+                                    <span class="avatar-name">Marcos Nascimento</span>
+                                </div>
+                                <div class="dropdown">
+                                    <i class="btn color-primary-white pd-0">
+                                        <i class="material-symbols-outlined font-size-large">expand_more</i>
+                                    </i>
+                                    <div class="dropdown-content align-items-center gap-2 color-primary-dark-1">
+                                        <i class="material-symbols-outlined font-size-large">exit_to_app</i>
+                                        <a href="#" class="color-primary-dark-1">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="container-fluid navigation pd-t-24 pd-b-16">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-4 col-sm-5 col-md-8 col-lg-9">
+                    <div class="menu-toggle d-lg-none">
+                        <button class="btn-menu">
+                            <i class="material-symbols-outlined font-size-title-medium color-primary-white">menu</i>
+                        </button>
+                    </div>
+                    <ul class="menu d-none d-lg-flex">
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">grid_view</i>
+                                <span class="tab-label font-caption-large">Home</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">list</i>
+                                <span class="tab-label font-caption-large">Pauta</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">list</i>
+                                <span class="tab-label font-caption-large">Requisições</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-8 col-sm-7 col-md-4 col-lg-3">
+                    <div class="input-container search-container font-caption-large color-primary-white">
+                        <div class="input-wrapper bg-primary-dark-3 bd-w-0">
+                            <i class="material-symbols-outlined">search</i>
+                            <input type="text" id="searchInput2" class="input-icon" placeholder="Busca">
+                            <div class="clear-icon">
+                                <i class="material-symbols-outlined" style="display: none;">clear</i>
+                            </div>
+                        </div>
+                        <ul class="results-container bg-primary-dark-3 bd-w-0"></ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="mobile-menu-overlay d-lg-none" style="display: none;">
+            <div class="mobile-menu-container">
+                <button class="btn-close-menu bg-primary-white pd-4 d-flex">
+                    <i class="material-symbols-outlined color-primary-dark-1 font-size-large">close</i>
+                </button>
+                <ul class="mobile-menu">
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">grid_view</i>
+                            <span class="tab-label font-caption-large">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">list</i>
+                            <span class="tab-label font-caption-large">Pauta</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">list</i>
+                            <span class="tab-label font-caption-large">Requisições</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div id="createCardModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Bucket</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3>SP161_Ihouse_IUKit</h3>
+                <!-- Componente de Busca -->
+                <div class="input-container search-container">
+                    <label for="searchInput1" class="input-label">Busca</label>
+                    <div class="input-wrapper">
+                        <i class="material-symbols-outlined">search</i>
+                        <input type="text" id="searchInput1" class="input-icon" placeholder="Buscar...">
+                        <div class="clear-icon">
+                            <i class="material-symbols-outlined" style="display: none;">clear</i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Avatar -->
+                <div class="avatar-container">
+                    <div class="avatar bg-feedback-green">
+                        <span class="color-primary-white">MP</span>
+                    </div>
+                    <div class="avatar-details">
+                        <span class="avatar-name">Marcus Pereira</span>
+                    </div>
+                </div>
+                <!-- Inputs -->
+                <div class="input-row">
+                    <div class="input-container">
+                        <label class="input-label">Bucket</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="bucketName" required>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <label class="input-label">Status da tarefa</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="taskStatus" required>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <label class="input-label">Data da tarefa</label>
+                        <div class="input-wrapper">
+                            <input type="date" id="taskDate" required>
+                        </div>
+                    </div>
+                </div>
+                <!-- Detalhes -->
+                <div class="details">
+                    <h4>Detalhes</h4>
+                    <div class="input-row">
+                        <div class="input-container">
+                            <label class="input-label">CA/BM</label>
+                            <div class="input-wrapper">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="input-container">
+                            <label class="input-label">Time</label>
+                            <div class="input-wrapper">
+                                <span class="tag">Tag</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Adicione mais campos conforme necessário -->
+                </div>
+                <button id="saveCardBtn">Salvar Card</button>
+            </div>
+        </div>
+    </div>
+    <main>
+        <div class="container-fluid pd-t-16">
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <div class="btn-group g-1">
+                        <button class="btn-icon btn-secon">
+                            <i class="material-symbols-outlined">send_to_mobile</i>
+                            <span>Minhas tarefas</span>
+                        </button>
+                        <button class="btn-icon btn-secon">
+                            <i class="material-symbols-outlined">add_circle_outline</i>
+                            <span>Novo quadro</span>
+                        </button>
+                        <button class="btn-icon btn-secon">
+                            <i class="material-symbols-outlined">ios_share</i>
+                            <span>Exportar</span>
+                        </button>
+                        <button class="btn-icon btn-secon">
+                            <i class="material-symbols-outlined">filter_alt</i>
+                            <span>Exibir</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid pd-x-0">
+            <div class="board">
+                <ul class="columns-list pd-l-24 pd-r-12 pd-y-24">
+                    <li>
+                        <div class="column">
+                            <div class="card pd-y-12">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span class="font-caption-large">Backlog Templates</span>
+                                    <button class="btn pd-0">
+                                        <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card bg-primary-gray-light-2" id="createCardBtn">
+                                <div class="card-header d-flex justify-content-center gap-2 align-items-center">
+                                    <span class="font-caption-large">CRIAR</span>
+                                    <button class="btn pd-0">
+                                        <i class="material-symbols-outlined font-size-title-medium fw-bold"> add </i>
+                                    </button>
+                                </div>
+                            </div>
+                            <ul id="cardContainer" class="cards-area">
+                            </ul>
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span class="font-caption-medium"></span>
+                                    <button class="btn pd-0">
+                                        <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-container">
+                                        <div class="nome-tarefa font-caption-large ">
+                                            <span>Nova tarefa</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="tag-icon pd-0 font-caption-large">
+                                            <i class="material-symbols-outlined"> calendar_today </i>
+                                            <span class="tag-label font-caption-large">12/06</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="column">
+                            <div class="content-head">
+                                <div class="card pd-y-12">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-large">Backlog Templates</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card bg-primary-gray-light-2">
+                                    <div class="card-header d-flex justify-content-center gap-2 align-items-center">
+                                        <span class="font-caption-large">CRIAR</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-medium fw-bold"> add </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium">Em aprovação mkt/negócio</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-secondary-orange">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium">Em aprovação mkt/negócio</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-secondary-orange">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium">Em aprovação mkt/negócio</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-secondary-orange">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium">Em aprovação mkt/negócio</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-secondary-orange">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium">Em aprovação mkt/negócio</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-secondary-orange">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium">Em aprovação mkt/negócio</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-secondary-orange">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Copie mais cards aqui conforme necessário -->
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="column">
+                            <div class="content-head">
+                                <div class="card pd-y-12">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-large">Egon (designer)</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card bg-primary-gray-light-2">
+                                    <div class="card-header d-flex justify-content-center gap-2 align-items-center">
+                                        <span class="font-caption-large">CRIAR</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-medium fw-bold"> add </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-secondary-turquoise bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-support-blue-md bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-support-coral bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="column">
+                            <div class="content-head">
+                                <div class="card pd-y-12">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-large">Egon (designer)</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card bg-primary-gray-light-2">
+                                    <div class="card-header d-flex justify-content-center gap-2 align-items-center">
+                                        <span class="font-caption-large">CRIAR</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-medium fw-bold"> add </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-secondary-turquoise bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-support-blue-md bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-support-coral bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="column">
+                            <div class="content-head">
+                                <div class="card pd-y-12">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-large">Egon (designer)</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card bg-primary-gray-light-2">
+                                    <div class="card-header d-flex justify-content-center gap-2 align-items-center">
+                                        <span class="font-caption-large">CRIAR</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-medium fw-bold"> add </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-secondary-turquoise bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-support-blue-md bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-support-coral bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="column">
+                            <div class="content-head">
+                                <div class="card pd-y-12">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-large">Egon (designer)</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card bg-primary-gray-light-2">
+                                    <div class="card-header d-flex justify-content-center gap-2 align-items-center">
+                                        <span class="font-caption-large">CRIAR</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-medium fw-bold"> add </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-secondary-turquoise bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-support-blue-md bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-support-coral bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="column">
+                            <div class="content-head">
+                                <div class="card pd-y-12">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-large">Egon (designer)</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card bg-primary-gray-light-2">
+                                    <div class="card-header d-flex justify-content-center gap-2 align-items-center">
+                                        <span class="font-caption-large">CRIAR</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-medium fw-bold"> add </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-secondary-turquoise bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-support-blue-md bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-support-coral bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="column">
+                            <div class="content-head">
+                                <div class="card pd-y-12">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-large">Egon (designer)</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card bg-primary-gray-light-2">
+                                    <div class="card-header d-flex justify-content-center gap-2 align-items-center">
+                                        <span class="font-caption-large">CRIAR</span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-medium fw-bold"> add </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-secondary-turquoise bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-support-blue-md bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span class="font-caption-medium"></span>
+                                        <button class="btn pd-0">
+                                            <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-container">
+                                            <div class="nome-tarefa font-caption-large ">
+                                                <span>[SP 154] Templatização Campanha Câmbio IP</span>
+                                            </div>
+                                            <div class="tag bg-support-coral bd-r-4 mg-t-16 corner-4">
+                                                <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="tag-icon pd-0 font-caption-large">
+                                                <i class="material-symbols-outlined"> calendar_today </i>
+                                                <span class="tag-label font-caption-large">12/06</span>
+                                            </div>
+                                            <div class="avatar-group d-flex gap-1">
+                                                <div class="avatar font-caption-small bg-support-blue-lt">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                                <div class="avatar font-caption-small bg-feedback-green">
+                                                    <span class="color-primary-white">MP</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('createCardModal');
+            const btn = document.getElementById('createCardBtn');
+            const closeBtn = document.getElementsByClassName('close')[0];
+            const saveCardBtn = document.getElementById('saveCardBtn');
+            const cardContainer = document.getElementById('cardContainer');
+            const searchContainer = document.querySelector('.search-container');
+            const resultadoAvatar = document.getElementById('resultadoAvatar');
+            const buscaAvatar = document.getElementById('buscaAvatar');
+            const resultadoUser = document.querySelector('.resultadoUser');
+
+            const suggestions = [
+                { name: "Marcus Pereira", email: "marcus@example.com", initials: "MP", colorClass: "bg-secondary-orange" },
+                { name: "Maria Silva", email: "maria@example.com", initials: "MS", colorClass: "bg-support-blue-lt" },
+                { name: "João Souza", email: "joao@example.com", initials: "JS", colorClass: "bg-feedback-green" }
+            ];
+
+            let selectedUsers = [];
+
+            function renderSuggestions(query = '') {
+                let suggestionsList = resultadoAvatar.querySelector('.suggestions-list');
+                if (!suggestionsList) {
+                    suggestionsList = document.createElement('div');
+                    suggestionsList.className = 'suggestions-list';
+                    resultadoAvatar.appendChild(suggestionsList);
+                }
+                suggestionsList.innerHTML = '';
+
+                const filteredSuggestions = suggestions.filter(item =>
+                    item.name.toLowerCase().includes(query) || item.email.toLowerCase().includes(query)
+                );
+
+                filteredSuggestions.forEach(item => {
+                    const userContainer = document.createElement('div');
+                    userContainer.className = 'avatar-container';
+
+                    const avatarHTML = `
+                    <div class="avatar ${item.colorClass}">
+                        <span class="color-primary-white">${item.initials}</span>
+                    </div>
+                    <div class="avatar-details" style="margin-left: 8px;">
+                        <span class="avatar-name">${item.name}</span>
+                    </div>
+                `;
+
+                    userContainer.innerHTML = avatarHTML;
+                    userContainer.onclick = function () {
+                        if (!selectedUsers.some(u => u.name === item.name)) {
+                            selectedUsers.push(item);
+                            updateSelectedUsersDisplay();
+                        }
+                        buscaAvatar.value = ''; // Limpa o input após a seleção
+                        resultadoAvatar.style.display = 'none';
+                    };
+
+                    suggestionsList.appendChild(userContainer);
+                });
+            }
+
+            searchContainer.addEventListener('click', function () {
+                resultadoAvatar.style.display = 'block';
+                buscaAvatar.focus();
+                renderSuggestions();
+            });
+
+            buscaAvatar.addEventListener('input', function () {
+                const query = buscaAvatar.value.toLowerCase();
+                renderSuggestions(query);
+            });
+
+            function updateSelectedUsersDisplay() {
+                resultadoUser.innerHTML = selectedUsers.map(user => `
+                <div class="avatar-container font-caption-medium">
+                    <div class="avatar ${user.colorClass}">
+                        <span class="color-primary-white">${user.initials}</span>
+                    </div>
+                    <div class="avatar-details">
+                        <span class="avatar-name">${user.name}</span>
+                    </div>
+                </div>
+            `).join('');
+            }
+
+            document.addEventListener('click', function (e) {
+                if (!searchContainer.contains(e.target)) {
+                    resultadoAvatar.style.display = 'none';
+                }
+            });
+
+            btn.onclick = function () {
+                modal.style.display = 'block';
+            };
+
+            closeBtn.onclick = function () {
+                modal.style.display = 'none';
+            };
+
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            };
+            function formatDate(dateStr) {
+                const date = new Date(dateStr);
+                return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            }
+
+            saveCardBtn.onclick = function () {
+                const taskStatusSelect = document.getElementById('taskStatusSelect');
+                const bucketNameSelect = document.getElementById('bucketSelect');
+                const taskDate = document.getElementById('taskDate').value;
+
+                const taskStatus = taskStatusSelect.selectedOptions[0] ? taskStatusSelect.selectedOptions[0].text : '';
+                const bucketName = bucketNameSelect.selectedOptions[0] ? bucketNameSelect.selectedOptions[0].text : '';
+
+                if (!taskStatus || !bucketName || !taskDate || selectedUsers.length === 0) {
+                    console.log("Dados incompletos para criar card");
+                    return;
+                }
+
+                const formattedDate = formatDate(taskDate);
+
+                const userAvatars = selectedUsers.map(user => `
+                <div class="avatar font-caption-small ${user.colorClass}">
+                    <span class="color-primary-white">${user.initials}</span>
+                </div>
+            `).join('');
+
+                const cardHTML = `
+                <li>
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span class="font-caption-medium">${taskStatus}</span>
+                            <button class="btn pd-0">
+                                <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-container">
+                                <div class="nome-tarefa font-caption-large">
+                                    <span>${bucketName}</span>
+                                </div>
+                                <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                    <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <div class="tag-icon pd-0 font-caption-large">
+                                    <i class="material-symbols-outlined"> calendar_today </i>
+                                    <span class="tag-label font-caption-large">${formattedDate}</span>
+                                </div>
+                                <div class="avatar-group d-flex gap-1">
+                                    ${userAvatars}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            `;
+
+                // Adicionar o card ao container
+                cardContainer.insertAdjacentHTML('beforeend', cardHTML);
+                console.log("Card adicionado ao container");
+
+                // Fechar o modal
+                modal.style.display = 'none';
+
+                // Limpar os inputs
+                document.getElementById('taskStatusSelect').value = 'default';
+                document.getElementById('bucketSelect').value = 'default';
+                document.getElementById('taskDate').value = '';
+                buscaAvatar.value = '';
+                selectedUsers = [];
+                resultadoUser.innerHTML = '';
+            };
+        });
+    </script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill-mention@2.1.3/dist/quill.mention.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

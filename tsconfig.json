@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "module": "esnext",
+        "moduleResolution": "node",
+        "strict": true,
+        "jsx": "react",
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true,
+        "baseUrl": "./src",
+        "paths": {
+            "@assets/*": ["assets/*"],
+            "@icons/*": ["assets/icons/*"],
+            "@images/*": ["assets/images/*"],
+            "@components/*": ["app/components/*"],
+            "@auth/*": ["app/components/auth/*"],
+            "@common/*": ["app/components/common/*"],
+            "@layout/*": ["app/components/layout/*"],
+            "@pages/*": ["app/pages/*"],
+            "@redux/*": ["app/redux/*"],
+            "@reducers/*": ["app/redux/reducers/*"],
+            "@store/*": ["app/store/*"],
+            "@services/*": ["app/services/*"],
+            "@types/*": ["app/types/*"]
+        },
+        "types": ["vite/client"]
+    },
+    "include": ["src", "vite-env.d.ts"],
+    "exclude": ["node_modules", "dist"]
+}

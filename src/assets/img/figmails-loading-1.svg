@@ -1,0 +1,61 @@
+<svg width="54" height="43" viewBox="0 0 54 43" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <style>
+                    .circle {
+                        transform-origin: center;
+                        animation: pong 1s alternate infinite;
+                    }
+
+                    @keyframes pong {
+                        0% {
+                            transform: translateY(16px);
+                        }
+
+                        100% {
+                            transform: translateY(-16px);
+                        }
+                    }
+
+                    .line-1 {
+                        transform-origin: bottom center;
+                        animation: collapse-line 1s alternate infinite;
+                        animation-delay: 50ms;
+                    }
+
+                    .line-2 {
+                        transform-origin: bottom center;
+                        animation: collapse-line 1s alternate infinite;
+                        animation-delay: 150ms;
+                    }
+
+                    .line-3 {
+                        transform-origin: bottom center;
+                        animation: collapse-line 1s alternate infinite;
+                        animation-delay: 250ms;
+                    }
+
+                    @keyframes collapse-line {
+
+                        0% {
+                            transform: scaleY(0.1);
+                        }
+
+                        100% {
+                            transform: scaleY(1);
+                        }
+
+                    }
+                </style>
+                <path class="line-3"
+                    d="M31.2929 42.908C31.2215 42.908 31.1502 42.9043 31.0788 42.893C30.1474 42.7766 29.4863 41.9278 29.6065 40.9963L34.5004 1.93903C34.6168 1.00758 35.4657 0.350299 36.3971 0.466731C37.3286 0.583163 37.9896 1.43199 37.8694 2.36344L32.9755 41.4207C32.8666 42.2808 32.138 42.908 31.2929 42.908Z"
+                    fill="white" transform="translate(0.333374 0.451904)" />
+                <path class="line-2"
+                    d="M16.2394 42.908C16.1681 42.908 16.0967 42.9043 16.0253 42.893C15.0939 42.7766 14.4329 41.9278 14.5531 40.9963L19.4432 1.93903C19.5596 1.00758 20.4084 0.350299 21.3399 0.466731C22.2714 0.583163 22.9324 1.43199 22.8122 2.36344L17.9183 41.4207C17.8094 42.2808 17.0807 42.908 16.2357 42.908H16.2394Z"
+                    fill="white" transform="translate(0.333374 0.451904)" />
+                <path class="line-1"
+                    d="M1.18223 42.0593C1.14843 42.0593 1.11087 42.0593 1.07707 42.0517C0.61134 41.9954 0.280823 41.5672 0.340917 41.1053L5.23106 2.04423C5.2874 1.5785 5.71181 1.24799 6.17754 1.30808C6.64326 1.36442 6.97378 1.79259 6.91369 2.25456L2.02355 41.3156C1.97096 41.7438 1.60289 42.0593 1.18223 42.0593Z"
+                    fill="white" transform="translate(0.333374 0.451904)" />
+                <path class="circle"
+                    d="M49.5201 25.7478C51.8102 25.7478 53.6666 23.8914 53.6666 21.6013C53.6666 19.3113 51.8102 17.4548 49.5201 17.4548C47.2301 17.4548 45.3737 19.3113 45.3737 21.6013C45.3737 23.8914 47.2301 25.7478 49.5201 25.7478Z"
+                    fill="white" transform="translate(0.333374 0.451904)" />
+            </svg>

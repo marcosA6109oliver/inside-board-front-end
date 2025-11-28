@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inside Board</title>
+    <link rel="shortcut icon" href="icons/fav-icon.png" type="image/x-icon">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/colors.css" rel="stylesheet">
+    <link href="../css/typography.css" rel="stylesheet">
+    <link href="../css/icons.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quill-mention@2.1.3/dist/quill.mention.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="../css/main.css" rel="stylesheet">
+    <style>
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container-fluid pd-y-24">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="top-bar">
+                        <div class="logo">
+                            <h1 class="font-caption-large d-block d-lg-flex lh-lg">
+                                <span class="font-size-title-small">Hub de Tech</span>
+                                <span class="traco d-none d-lg-block"></span>
+                                <br class="d-block d-lg-none">
+                                <span>Inside Board</span>
+                            </h1>
+                        </div>
+                        <div class="user-info">
+                            <div class="avatar-container font-caption-medium">
+                                <div class="avatar bg-feedback-green">
+                                    <span class="color-primary-white">MN</span>
+                                </div>
+                                <div class="avatar-details d-none d-lg-block">
+                                    <span class="avatar-name">Marcos Nascimento</span>
+                                </div>
+                                <div class="dropdown">
+                                    <i class="btn color-primary-white pd-0">
+                                        <i class="material-symbols-outlined font-size-large">expand_more</i>
+                                    </i>
+                                    <div class="dropdown-content align-items-center gap-2 color-primary-dark-1">
+                                        <i class="material-symbols-outlined font-size-large">exit_to_app</i>
+                                        <a href="#" class="color-primary-dark-1">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="container-fluid navigation pd-t-24 pd-b-16">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-4 col-sm-5 col-md-8 col-lg-9">
+                    <div class="menu-toggle d-lg-none">
+                        <button class="btn-menu">
+                            <i class="material-symbols-outlined font-size-title-medium color-primary-white">menu</i>
+                        </button>
+                    </div>
+                    <ul class="menu d-none d-lg-flex">
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">grid_view</i>
+                                <span class="tab-label font-caption-large">Quadro</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">list</i>
+                                <span class="tab-label font-caption-large">Pauta</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">settings</i>
+                                <span class="tab-label font-caption-large">Configurações</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">dashboard</i>
+                                <span class="tab-label font-caption-large">Painel administrativo</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                                <i class="material-symbols-outlined">analytics</i>
+                                <span class="tab-label font-caption-large">Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-8 col-sm-7 col-md-4 col-lg-3">
+                    <div class="input-container search-container font-caption-large color-primary-white">
+                        <div class="input-wrapper bg-primary-dark-3 bd-w-0">
+                            <i class="material-symbols-outlined">search</i>
+                            <input type="text" id="searchInput2" class="input-icon" placeholder="Busca">
+                            <div class="clear-icon">
+                                <i class="material-symbols-outlined" style="display: none;">clear</i>
+                            </div>
+                        </div>
+                        <ul class="results-container bg-primary-dark-3 bd-w-0"></ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="mobile-menu-overlay d-lg-none" style="display: none;">
+            <div class="mobile-menu-container">
+                <button class="btn-close-menu bg-primary-white pd-4 d-flex">
+                    <i class="material-symbols-outlined color-primary-dark-1 font-size-large">close</i>
+                </button>
+                <ul class="mobile-menu">
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">grid_view</i>
+                            <span class="tab-label font-caption-large">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">list</i>
+                            <span class="tab-label font-caption-large">Pauta</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="tab tab-height-4 font-caption-large color-primary-white">
+                            <i class="material-symbols-outlined">list</i>
+                            <span class="tab-label font-caption-large">Requisições</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div id="createCardModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">BUCHET</h3>
+                        <h2 class="font-family-montserrat font-size-base font-weight-light mg-t-8">SP161_Ihouse_IUKit</h2>
+                    </div>
+                </div>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="row inputs-task">
+                    <div class="col-md-12">
+                        <div class="input-container search-container search-avatar font-caption-large">
+                            <div class="pd-12 d-flex bg-primary-white bd-w-1 bd-color-primary-gray-light-2 align-items-center">
+                                <i class="material-symbols-outlined color-primary-gray-dark">search</i>
+                                <span class="resultadoUser input-icon"></span>
+                                <div id="resultadoAvatar" class="input-wrapper bg-primary-white" style="display: none;">
+                                    <input type="text" id="buscaAvatar" class="input-icon" placeholder="Digite um nome ou um email">
+                                    <div class="suggestions-list">
+                                        <!-- Sugestões serão adicionadas aqui -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container color-primary-dark-1 font-caption-large">
+                            <label class="input-label bg-primary-white">Bucket</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <select id="bucketSelect" class="font-caption-large styledSelect">
+                                    <option value="default" selected disabled hidden>Escolha uma opção</option>
+                                    <option value="66">Em backlog</option>
+                                    <option value="388">May Martins ou Bea Souza</option>
+                                    <option value="68">Tech ihouse [Roberto e Vini]</option>
+                                    <option value="391">Financeiro e compras plugin</option>
+                                    <option value="65">Pautar para o HUB Tech</option>
+                                    <option value="67">Gabriel Silverio</option>
+                                    <option value="40">Orlando Libardi</option>
+                                    <option value="389">Com o HUB Design</option>
+                                    <option value="390">Com as squads</option>
+                                    <option value="393">Em aprovação</option>
+                                    <option value="392">Concluído</option>
+                                </select>
+                                <i class="material-symbols-outlined icon-select"> expand_more </i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container color-primary-dark-1 font-caption-large">
+                            <label class="input-label bg-primary-white">Status da tarefa</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <select id="taskStatusSelect" class="font-caption-large styledSelect">
+                                    <option value="default" selected disabled hidden>Escolha uma opção</option>
+                                    <option value="1">Em criação ihouse</option>
+                                    <option value="2">Em aprovação mkt/negócio</option>
+                                    <option value="3">Em backlog</option>
+                                    <option value="4">Concluído</option>
+                                    <option value="5">Aguardando infos itaú</option>
+                                    <option value="6">Aguardando infos squad</option>
+                                    <option value="7">Aguardando infos HUB</option>
+                                    <option value="8">Planejamento</option>
+                                    <option value="9">Pautar</option>
+                                    <option value="10">Cancelado</option>
+                                    <option value="11">Stand by</option>
+                                    <option value="12">Em produção/hub</option>
+                                </select>
+                                <i class="material-symbols-outlined icon-select"> expand_more </i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white" for="taskDate">Data da tarefa</label>
+                            <div class="input-wrapper pd-r-6">
+                                <i class="calendarIcon material-symbols-outlined color-primary-gray-dark" style="cursor: pointer;">calendar_month</i>
+                                <input type="text" id="taskDate" class="inputCalendar input-icon" placeholder="dd/mm/aaaa"> <!-- Ajuste o tipo de 'date' para 'text' -->
+                                <button class="clearDate btn pd-4 corner-4 bg-feedback-red color-primary-white font-small" style="display: none;">
+                                    <i class="material-symbols-outlined">close</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-container font-caption-large font-family-helvetica">
+                            <label class="input-label bg-primary-white">Descrição da tarefa</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <input type="text" id="#" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row inputs-details mg-t-48">
+                    <div class="col-md-12 mg-b-8">
+                        <h3 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">DETALHES</h3>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">CA/BM</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Time</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">timer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Esteira</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">queue</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Produto</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Owner</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">GD</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Supcia centro de custo</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Supcia demandante</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container search-container font-caption-large">
+                            <label class="input-label bg-primary-white">Dupla criativa</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">search</i>
+                                <input type="text" id="#" class="input-icon">
+                                <div class="clear-icon">
+                                    <i class="material-symbols-outlined" style="display: none;">clear</i>
+                                </div>
+                            </div>
+                            <ul class="results-container bg-primary-white"></ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Job novo/Paraquedas</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Mochila Pauta</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Sprint</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Briefing/feedback aceito ou recusado</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Frentes</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Frente Marina</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Esforço</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Tamanho (P,M ou G)</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Participantes</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Esforço</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row inputs-format mg-t-48">
+                    <div class="col-md-12 mg-b-8">
+                        <h3 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">FORMATOS</h3>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Formato</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Tipo de entrega</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. total</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">format_list_numbered_rtl</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. templati.</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">format_list_numbered_rtl</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Versionamento</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Status</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Data entrada briefing</label>
+                            <div class="input-wrapper pd-r-6">
+                                <i class="calendarIcon material-symbols-outlined color-primary-gray-dark" style="cursor: pointer;">calendar_month</i>
+                                <input type="text" class="inputCalendar input-icon" placeholder="dd/mm/aaaa"> <!-- Ajuste o tipo de 'date' para 'text' -->
+                                <button class="clearDate btn pd-4 corner-4 bg-feedback-red color-primary-white font-small" style="display: none;">
+                                    <i class="material-symbols-outlined">close</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Data entrada</label>
+                            <div class="input-wrapper pd-r-6">
+                                <i class="calendarIcon material-symbols-outlined color-primary-gray-dark" style="cursor: pointer;">calendar_month</i>
+                                <input type="text" class="inputCalendar input-icon" placeholder="dd/mm/aaaa"> <!-- Ajuste o tipo de 'date' para 'text' -->
+                                <button class="clearDate btn pd-4 corner-4 bg-feedback-red color-primary-white font-small" style="display: none;">
+                                    <i class="material-symbols-outlined">close</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Data saída</label>
+                            <div class="input-wrapper pd-r-6">
+                                <i class="calendarIcon material-symbols-outlined color-primary-gray-dark" style="cursor: pointer;">calendar_month</i>
+                                <input type="text" class="inputCalendar input-icon" placeholder="dd/mm/aaaa"> <!-- Ajuste o tipo de 'date' para 'text' -->
+                                <button class="clearDate btn pd-4 corner-4 bg-feedback-red color-primary-white font-small" style="display: none;">
+                                    <i class="material-symbols-outlined">close</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row inputs-qtd-segment mg-t-48">
+                    <div class="col-md-12 mg-b-8">
+                        <h3 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">QUANTIDADE POR SEGMENTOS</h3>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças IA</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">format_list_numbered_rtl</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="inputaskDate-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças IU</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">format_list_numbered_rtl</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças IP</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">format_list_numbered_rtl</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças PJ</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">format_list_numbered_rtl</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças IBBA</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">format_list_numbered_rtl</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças Private/Asset/Diso</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">format_list_numbered_rtl</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças íon</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">format_list_numbered_rtl</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças outras</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">format_list_numbered_rtl</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças não correntistas</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">format_list_numbered_rtl</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row inputs-qtd-total mg-t-48">
+                    <div class="col-md-12 mg-b-8">
+                        <h3 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">QUANTIDADE TOTAL</h3>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row inputs-links mg-t-48">
+                    <div class="col-md-12 mg-b-8">
+                        <h3 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">LINKS</h3>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-container interactive font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">URL Iu Flow</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">insert_link</i>
+                                <input type="text" class="input-icon">
+                                <div class="button-links gap-4 pd-r-12" style="display: none;"> <!-- Adicionando display none inicialmente -->
+                                    <button class="copy-btn btn pd-4 corner-4 bg-feedback-green color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> content_paste </i>
+                                    </button>
+                                    <button class="link-btn btn pd-4 corner-4 bg-secondary-blue color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> link </i>
+                                    </button>
+                                    <button class="close-btn btn pd-4 corner-4 bg-feedback-red color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> close </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-container interactive font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">URL Share Point</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">insert_link</i>
+                                <input type="text" class="input-icon">
+                                <div class="button-links gap-4 pd-r-12" style="display: none;"> <!-- Adicionando display none inicialmente -->
+                                    <button class="copy-btn btn pd-4 corner-4 bg-feedback-green color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> content_paste </i>
+                                    </button>
+                                    <button class="link-btn btn pd-4 corner-4 bg-secondary-blue color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> link </i>
+                                    </button>
+                                    <button class="close-btn btn pd-4 corner-4 bg-feedback-red color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> close </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-container interactive font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">URL Bynder</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">insert_link</i>
+                                <input type="text" class="input-icon">
+                                <div class="button-links gap-4 pd-r-12" style="display: none;"> <!-- Adicionando display none inicialmente -->
+                                    <button class="copy-btn btn pd-4 corner-4 bg-feedback-green color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> content_paste </i>
+                                    </button>
+                                    <button class="link-btn btn pd-4 corner-4 bg-secondary-blue color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> link </i>
+                                    </button>
+                                    <button class="close-btn btn pd-4 corner-4 bg-feedback-red color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> close </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-container interactive font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">URL Figma</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">insert_link</i>
+                                <input type="text" class="input-icon">
+                                <div class="button-links gap-4 pd-r-12" style="display: none;"> <!-- Adicionando display none inicialmente -->
+                                    <button class="copy-btn btn pd-4 corner-4 bg-feedback-green color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> content_paste </i>
+                                    </button>
+                                    <button class="link-btn btn pd-4 corner-4 bg-secondary-blue color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> link </i>
+                                    </button>
+                                    <button class="close-btn btn pd-4 corner-4 bg-feedback-red color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> close </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row inputs-comment mg-t-48">
+                    <div class="col-md-12 mg-b-8">
+                        <h3 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">COMENTÁRIOS</h3>
+                    </div>
+                    <div class="col-md-12 mg-t-16">
+                        <div id="editor-container" style="height: 150px;"></div>
+                        <button type="button" class="btn btn-prima btn-comment mg-t-16 corner-8">Comentar</button>
+                    </div>
+                    <div class="col-md-12 mg-t-16">
+                        <ul class="comment-items">
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12 text-end">
+                    <button id="saveCardBtn" class="btn btn-secon">Salvar Card</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main>
+        <div class="container-fluid pd-t-16">
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <div class="btn-group g-1">
+                        <button class="btn-icon btn-secon">
+                            <i class="material-symbols-outlined">send_to_mobile</i>
+                            <span>Minhas tarefas</span>
+                        </button>
+                        <button id="newBoardBtn" class="btn-icon btn-secon">
+                            <i class="material-symbols-outlined">add_circle_outline</i>
+                            <span>Novo quadro</span>
+                        </button>
+                        <!-- Botão para Exportar (Abre o Modal) -->
+                        <button id="exportBtn" class="btn-icon btn-secon">
+                            <i class="material-symbols-outlined">filter_alt</i>
+                            <span>Exportar</span>
+                        </button>
+                        <!-- Modal Estrutura -->
+                        <div id="exportModal" class="modal" style="display: none;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <span class="close">&times;</span>
+                                    <h3 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">Endomarketing</h3>
+                                    <p class="mg-t-8">Exportar dados do Board</p>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="checkbox-grid mg-t-16 pd-t-24">
+                                        <div class="checkbox-container ">
+                                            <input type="checkbox" id="checkbox0" class="custom-checkbox">
+                                            <label for="checkbox0" class="checkbox-label font-caption-large">Janeiro</label>
+                                        </div>
+                                        <div class="checkbox-container ">
+                                            <input type="checkbox" id="checkbox1" class="custom-checkbox">
+                                            <label for="checkbox1" class="checkbox-label font-caption-large">Fevereiro</label>
+                                        </div>
+                                        <div class="checkbox-container ">
+                                            <input type="checkbox" id="checkbox2" class="custom-checkbox">
+                                            <label for="checkbox2" class="checkbox-label font-caption-large">Março</label>
+                                        </div>
+                                        <div class="checkbox-container ">
+                                            <input type="checkbox" id="checkbox3" class="custom-checkbox">
+                                            <label for="checkbox3" class="checkbox-label font-caption-large">Abril</label>
+                                        </div>
+                                        <div class="checkbox-container ">
+                                            <input type="checkbox" id="checkbox4" class="custom-checkbox">
+                                            <label for="checkbox4" class="checkbox-label font-caption-large">Maio</label>
+                                        </div>
+                                        <div class="checkbox-container ">
+                                            <input type="checkbox" id="checkbox5" class="custom-checkbox">
+                                            <label for="checkbox5" class="checkbox-label font-caption-large">Junho</label>
+                                        </div>
+                                        <div class="checkbox-container ">
+                                            <input type="checkbox" id="checkbox6" class="custom-checkbox">
+                                            <label for="checkbox6" class="checkbox-label font-caption-large">Julho</label>
+                                        </div>
+                                        <div class="checkbox-container ">
+                                            <input type="checkbox" id="checkbox7" class="custom-checkbox">
+                                            <label for="checkbox7" class="checkbox-label font-caption-large">Agosto</label>
+                                        </div>
+                                        <div class="checkbox-container ">
+                                            <input type="checkbox" id="checkbox8" class="custom-checkbox">
+                                            <label for="checkbox8" class="checkbox-label font-caption-large">Setembro</label>
+                                        </div>
+                                        <div class="checkbox-container">
+                                            <input type="checkbox" id="checkbox9" class="custom-checkbox">
+                                            <label for="checkbox9" class="checkbox-label font-caption-large">Outubro</label>
+                                        </div>
+                                        <div class="checkbox-container">
+                                            <input type="checkbox" id="checkbox10" class="custom-checkbox">
+                                            <label for="checkbox10" class="checkbox-label font-caption-large">Novembro</label>
+                                        </div>
+                                        <div class="checkbox-container">
+                                            <input type="checkbox" id="checkbox11" class="custom-checkbox">
+                                            <label for="checkbox11" class="checkbox-label font-caption-large">Dezembro</label>
+                                        </div>
+                                        <button type="button" class="btn btn-prima mg-t-16 corner-8" id="exportDataBtn">Exportar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-icon btn-secon" id="filterBtn">
+                            <i class="material-symbols-outlined">filter_alt</i>
+                            <span>Exibir</span>
+                        </button>
+                        <div class="filter-dropdown" id="filterDropdown" style="display: none;">
+                            <div class="filter-option">
+                                <div class="switch">
+                                    <input type="checkbox" id="filterBMEN" class="switch-input">
+                                    <label for="filterBMEN" class="switch-label">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <label class="font-caption-large" for="filterBMEN">BM/EN</label>
+                            </div>
+                            <div class="filter-option">
+                                <div class="switch">
+                                    <input type="checkbox" id="filterTime" class="switch-input">
+                                    <label for="filterTime" class="switch-label">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <label class="font-caption-large" for="filterTime">Time</label>
+                            </div>
+                            <div class="filter-option">
+                                <div class="switch">
+                                    <input type="checkbox" id="filterEsteira" class="switch-input">
+                                    <label for="filterEsteira" class="switch-label">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <label class="font-caption-large" for="filterEsteira">Esteira</label>
+                            </div>
+                            <div class="filter-option">
+                                <div class="switch">
+                                    <input type="checkbox" id="filterProduto" class="switch-input">
+                                    <label for="filterProduto" class="switch-label">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <label class="font-caption-large" for="filterProduto">Produto</label>
+                            </div>
+                            <div class="filter-option">
+                                <div class="switch">
+                                    <input type="checkbox" id="filterOwner" class="switch-input">
+                                    <label for="filterOwner" class="switch-label">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <label class="font-caption-large" for="filterOwner">Owner</label>
+                            </div>
+                            <div class="filter-option">
+                                <div class="switch">
+                                    <input type="checkbox" id="filterGD" class="switch-input">
+                                    <label for="filterGD" class="switch-label">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <label class="font-caption-large" for="filterGD">GD</label>
+                            </div>
+                            <div class="filter-option">
+                                <div class="switch">
+                                    <input type="checkbox" id="filterPrioridade" class="switch-input">
+                                    <label for="filterPrioridade" class="switch-label">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <label class="font-caption-large" for="filterPrioridade">Prioridade</label>
+                            </div>
+                            <div class="filter-option">
+                                <div class="switch">
+                                    <input type="checkbox" id="filterDuplaCriativa" class="switch-input">
+                                    <label for="filterDuplaCriativa" class="switch-label">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <label class="font-caption-large" for="filterDuplaCriativa">Dupla Criativa</label>
+                            </div>
+                            <div class="filter-option">
+                                <div class="switch">
+                                    <input type="checkbox" id="filterJobNovo" class="switch-input">
+                                    <label for="filterJobNovo" class="switch-label">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <label class="font-caption-large" for="filterJobNovo">Job Novo / Paraquedas</label>
+                            </div>
+                            <div class="filter-option">
+                                <div class="switch">
+                                    <input type="checkbox" id="filterMochilaPauta" class="switch-input">
+                                    <label for="filterMochilaPauta" class="switch-label">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <label class="font-caption-large" for="filterMochilaPauta">Mochila Pauta</label>
+                            </div>
+                            <!-- Repita para outros filtros -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid pd-x-0">
+            <div class="board">
+                <ul class="columns-list pd-l-24 pd-r-12 pd-t-24" id="boardContainer">
+                    <!-- Outras colunas existentes -->
+                </ul>
+            </div>
+        </div>
+    </main>
+    <script src="../js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill-mention@2.1.3/dist/quill.mention.min.js"></script>
+</body>
+</html>

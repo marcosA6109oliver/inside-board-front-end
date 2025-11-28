@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figmails</title>
+    <link rel="shortcut icon" href="icons/fav-icon.png" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/colors.css" rel="stylesheet">
+    <link href="css/typography.css" rel="stylesheet">
+    <link href="css/icons.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quill-mention@2.1.3/dist/quill.mention.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: var(--space-32) auto;
+            padding: 20px;
+            border: 1px solid var(--color-primary-gray-light-2);
+            max-width: 920px;
+            border-radius: 0;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border: none;
+        }
+
+        .close {
+            font-size: 30px;
+            font-weight: 100;
+            cursor: pointer;
+            line-height: 1;
+            position: absolute;
+            right: 27px;
+            top: 22px;
+        }
+
+        .cards-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .row .col-md-2,
+        .row .col-md-3,
+        .row .col-md-4,
+        .row .col-md-5,
+        .row .col-md-6,
+        .row .col-md-7,
+        .row .col-md-8,
+        .row .col-md-9,
+        .row .col-md-10,
+        .row .col-md-11,
+        .row .col-md-12 {
+            padding-right: calc(var(--bs-gutter-x) * 0.25);
+            padding-left: calc(var(--bs-gutter-x) * 0.25);
+        }
+
+        .ql-toolbar.ql-snow {
+            border: none;
+            border-bottom: 1px solid #ccc;
+            padding: 0;
+        }
+
+        .ql-snow.ql-toolbar button,
+        .ql-snow .ql-toolbar button {
+            background: none;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            display: inline-block;
+            float: left;
+            height: 40px;
+            padding: 10px 10px;
+            width: 40px;
+            border-bottom: none;
+            border-right: none;
+        }
+
+        .ql-snow.ql-toolbar button:last-child,
+        .ql-snow .ql-toolbar button:last-child {
+            border-right: 1px solid #ccc;
+        }
+
+        .comment-items li {
+            background-color: var(--color-primary-gray-light-2);
+            padding: var(--space-24);
+        }
+    </style>
+</head>
+<body>
+    <!-- Botão para criar um novo card -->
+    <button id="createCardBtn">Criar Novo Card</button>
+    <!-- Modal -->
+    <div id="createCardModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">BUCHET</h5>
+                        <h2 class="font-family-montserrat font-size-base font-weight-light mg-t-8">SP161_Ihouse_IUKit</h2>
+                    </div>
+                </div>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="row inputs-task">
+                    <div class="col-md-12">
+                        <div class="input-container search-container font-caption-large">
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">search</i>
+                                <input type="text" id="buscaAvatar" class="input-icon" placeholder="Digite um nome ou um email">
+                            </div>
+                            <div id="resultadoAvatar" class="results-container bg-primary-white">
+                                <!-- Sugestões serão adicionadas aqui -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container color-primary-dark-1 font-caption-large">
+                            <label class="input-label bg-primary-white">Bucket</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <select id="bucketSelect" class="font-caption-large styledSelect">
+                                    <option value="default" selected disabled hidden>Escolha uma opção</option>
+                                    <option value="66">Em backlog</option>
+                                    <option value="388">May Martins ou Bea Souza</option>
+                                    <option value="68">Tech ihouse [Roberto e Vini]</option>
+                                    <option value="391">Financeiro e compras plugin</option>
+                                    <option value="65">Pautar para o HUB Tech</option>
+                                    <option value="67">Gabriel Silverio</option>
+                                    <option value="40">Orlando Libardi</option>
+                                    <option value="389">Com o HUB Design</option>
+                                    <option value="390">Com as squads</option>
+                                    <option value="393">Em aprovação</option>
+                                    <option value="392">Concluído</option>
+                                </select>
+                                <i class="material-symbols-outlined icon-select"> expand_more </i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container color-primary-dark-1 font-caption-large">
+                            <label class="input-label bg-primary-white">Status da tarefa</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <select id="taskStatusSelect" class="font-caption-large styledSelect">
+                                    <option value="default" selected disabled hidden>Escolha uma opção</option>
+                                    <option value="1">Em criação ihouse</option>
+                                    <option value="2">Em aprovação mkt/negócio</option>
+                                    <option value="3">Em backlog</option>
+                                    <option value="4">Concluído</option>
+                                    <option value="5">Aguardando infos itaú</option>
+                                    <option value="6">Aguardando infos squad</option>
+                                    <option value="7">Aguardando infos HUB</option>
+                                    <option value="8">Planejamento</option>
+                                    <option value="9">Pautar</option>
+                                    <option value="10">Cancelado</option>
+                                    <option value="11">Stand by</option>
+                                    <option value="12">Em produção/hub</option>
+                                </select>
+                                <i class="material-symbols-outlined icon-select"> expand_more </i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Data da tarefa</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">calendar_month</i>
+                                <input type="date" id="taskDate" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-container font-caption-large font-family-helvetica">
+                            <label class="input-label bg-primary-white">Descrição da tarefa</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <input type="text" id="#" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row inputs-details mg-t-48">
+                    <div class="col-md-12">
+                        <h5 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">DETALHES</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">CA/BM</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Time</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">timer</i>
+                                <input type="text" id="taskDate" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Esteira</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">queue</i>
+                                <input type="text" id="taskDate" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Produto</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Owner</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">GD</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Supcia centro de custo</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Supcia demandante</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container search-container font-caption-large">
+                            <label class="input-label bg-primary-white">Dupla criativa</label>
+                            <div class="input-wrapper bg-primary-white">
+                                <i class="material-symbols-outlined color-primary-gray-dark">search</i>
+                                <input type="text" id="#" class="input-icon">
+                                <div class="clear-icon">
+                                    <i class="material-symbols-outlined" style="display: none;">clear</i>
+                                </div>
+                            </div>
+                            <ul class="results-container bg-primary-white"></ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Job novo/Paraquedas</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Mochila Pauta</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Sprint</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Briefing/feedback aceito ou recusado</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Frentes</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Frente Marina</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Esforço</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Tamanho (P,M ou G)</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Participantes</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">local_offer</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Esforço</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="#" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row inputs-format mg-t-48">
+                    <div class="col-md-12">
+                        <h5 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">FORMATOS</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Formato</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Tipo de entrega</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. total</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. templati.</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Versionamento</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Status</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Data entrada briefing</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Data entrada</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Data saída</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row inputs-qtd-segment mg-t-48">
+                    <div class="col-md-12">
+                        <h5 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">QUANTIDADE POR SEGMENTOS</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças IA</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças IU</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças IP</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças PJ</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças IBBA</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças Private/Asset/Diso</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças íon</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças outras</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Qtda. de peças não correntistas</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row inputs-qtd-total mg-t-48">
+                    <div class="col-md-12">
+                        <h5 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">QUANTIDADE TOTAL</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">rtt</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row inputs-links mg-t-48">
+                    <div class="col-md-12">
+                        <h5 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">LINKS</h5>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">insert_link</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                                <div class="button-links d-flex gap-4 pd-r-12">
+                                    <button class="btn pd-4 corner-4 bg-feedback-green color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> content_paste </i>
+                                    </button>
+                                    <button class="btn pd-4 corner-4 bg-secondary-blue color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> link </i>
+                                    </button>
+                                    <button class="btn pd-4 corner-4 bg-feedback-red color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> close </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">insert_link</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">insert_link</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                                <div class="button-links d-flex gap-4 pd-r-12">
+                                    <button class="btn pd-4 corner-4 bg-feedback-green color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> content_paste </i>
+                                    </button>
+                                    <button class="btn pd-4 corner-4 bg-secondary-blue color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> link </i>
+                                    </button>
+                                    <button class="btn pd-4 corner-4 bg-feedback-red color-primary-white font-small">
+                                        <i class="material-symbols-outlined"> close </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-container font-caption-large font-family-helvetica bg-primary-white">
+                            <label class="input-label bg-primary-white">Label</label>
+                            <div class="input-wrapper">
+                                <i class="material-symbols-outlined color-primary-gray-dark">insert_link</i>
+                                <input type="text" id="cabmName" class="input-icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row inputs-comment mg-t-48">
+                    <div class="col-md-12">
+                        <h5 class="font-family-montserrat font-size-caption-large color-secondary-blue font-weight-bold">COMENTÁRIOS</h5>
+                    </div>
+                    <div class="col-md-12 mg-t-16">
+                        <div id="editor-container" style="height: 150px;"></div>
+                        <button type="button" class="btn btn-prima btn-comment mg-t-16 corner-8">Comentar</button>
+                    </div>
+                    <div class="col-md-12 mg-t-16">
+                        <ul class="comment-items">
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12 text-end">
+                    <button id="saveCardBtn" class="btn btn-secon">Salvar Card</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Área de Cards -->
+    <div id="cardContainer" class="cards-area">
+        <!-- Cards Criados serão adicionados aqui -->
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const quill = new Quill('#editor-container', {
+                theme: 'snow',
+                placeholder: 'Comentar...',
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline', 'link']
+                    ],
+                    mention: {
+                        allowedChars: /^[A-Za-z\s]*$/,
+                        mentionDenotationChars: ["@"],
+                        source: function (searchTerm, renderList) {
+                            const values = [
+                                { id: 1, value: "Marcus Pereira" },
+                                { id: 2, value: "Maria Silva" },
+                                { id: 3, value: "João Souza" }
+                            ];
+
+                            if (searchTerm.length === 0) {
+                                renderList(values, searchTerm);
+                            } else {
+                                const matches = values.filter(item =>
+                                    item.value.toLowerCase().includes(searchTerm.toLowerCase())
+                                );
+                                renderList(matches, searchTerm);
+                            }
+                        }
+                    }
+                }
+            });
+
+            const commentList = document.querySelector('.comment-items');
+
+            document.querySelector('.btn-comment').addEventListener('click', () => {
+                const content = quill.root.innerHTML;
+                if (content.trim() !== '<p><br></p>') {  // Verifica se o conteúdo não está vazio
+                    const newComment = document.createElement('li');
+                    newComment.innerHTML = content;
+                    commentList.appendChild(newComment);
+
+                    // Limpa o editor após adicionar o comentário
+                    quill.setContents([]);
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('createCardModal');
+            const btn = document.getElementById('createCardBtn');
+            const closeBtn = document.getElementsByClassName('close')[0];
+            const saveCardBtn = document.getElementById('saveCardBtn');
+            const cardContainer = document.getElementById('cardContainer');
+            const searchInput = document.getElementById('buscaAvatar');
+            const resultadoAvatar = document.getElementById('resultadoAvatar');
+            const suggestions = [
+                { name: "Marcus Pereira", email: "marcus@example.com", initials: "MP", colorClass: "bg-secondary-orange" },
+                { name: "Maria Silva", email: "maria@example.com", initials: "MS", colorClass: "bg-support-blue-lt" },
+                { name: "João Souza", email: "joao@example.com", initials: "JS", colorClass: "bg-feedback-green" }
+            ];
+            let selectedUsers = [];
+
+            btn.onclick = function () {
+                modal.style.display = 'block';
+            };
+
+            closeBtn.onclick = function () {
+                modal.style.display = 'none';
+            };
+
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            };
+
+            function formatDate(dateStr) {
+                const date = new Date(dateStr);
+                return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            }
+
+            function updateSelectedUsersDisplay() {
+                // Limpa a visualização anterior ao adicionar nova seleção
+                const existingAvatars = document.querySelectorAll('.avatar-container');
+                existingAvatars.forEach(avatar => avatar.remove());
+
+                const selectedMarkup = selectedUsers.map(user => `
+            <div class="avatar-container font-caption-medium" style="display: flex; align-items: center; margin-right: 8px;">
+                <div class="avatar ${user.colorClass}">
+                    <span class="color-primary-white">${user.initials}</span>
+                </div>
+                <div class="avatar-details" style="margin-left: 8px;">
+                    <span class="avatar-name">${user.name}</span>
+                </div>
+            </div>
+        `).join('');
+
+                searchInput.insertAdjacentHTML('beforebegin', selectedMarkup);
+            }
+
+            searchInput.addEventListener('focus', function () {
+                resultadoAvatar.style.display = 'block';
+            });
+
+            searchInput.addEventListener('input', function () {
+                const query = searchInput.value.toLowerCase();
+                resultadoAvatar.innerHTML = '';
+
+                const filteredSuggestions = suggestions.filter(item =>
+                    item.name.toLowerCase().includes(query) || item.email.toLowerCase().includes(query)
+                );
+
+                filteredSuggestions.forEach(item => {
+                    const userContainer = document.createElement('div');
+                    userContainer.className = 'avatar-container';
+
+                    const avatarHTML = `
+                <div class="avatar ${item.colorClass}">
+                    <span class="color-primary-white">${item.initials}</span>
+                </div>
+                <div class="avatar-details" style="margin-left: 8px;">
+                    <span class="avatar-name">${item.name}</span>
+                </div>
+            `;
+
+                    userContainer.innerHTML = avatarHTML;
+                    userContainer.onclick = function () {
+                        if (!selectedUsers.some(u => u.name === item.name)) {
+                            selectedUsers.push(item);
+                            updateSelectedUsersDisplay();
+                        }
+                        resultadoAvatar.style.display = 'none';
+                    };
+
+                    resultadoAvatar.appendChild(userContainer);
+                });
+            });
+
+            searchInput.addEventListener('blur', function () {
+                setTimeout(() => {
+                    resultadoAvatar.style.display = 'none';
+                }, 200);
+            });
+
+            saveCardBtn.onclick = function () {
+                const taskStatusSelect = document.getElementById('taskStatusSelect');
+                const bucketNameSelect = document.getElementById('bucketSelect');
+                const taskDate = document.getElementById('taskDate').value;
+
+                const taskStatus = taskStatusSelect.selectedOptions[0] ? taskStatusSelect.selectedOptions[0].text : '';
+                const bucketName = bucketNameSelect.selectedOptions[0] ? bucketNameSelect.selectedOptions[0].text : '';
+
+                if (!taskStatus || !bucketName || !taskDate || selectedUsers.length === 0) {
+                    console.log("Dados incompletos para criar card");
+                    return;
+                }
+
+                const formattedDate = formatDate(taskDate);
+
+                const userAvatars = selectedUsers.map(user => `
+            <div class="avatar font-caption-small ${user.colorClass}">
+                <span class="color-primary-white">${user.initials}</span>
+            </div>
+        `).join('');
+
+                const cardHTML = `
+                    <li>
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span class="font-caption-medium">${taskStatus}</span>
+                                <button class="btn pd-0">
+                                    <i class="material-symbols-outlined font-size-title-large fw-bold"> more_horiz </i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-container">
+                                    <div class="nome-tarefa font-caption-large ">
+                                        <span>${bucketName}</span>
+                                    </div>
+                                    <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                        <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="tag-icon pd-0 font-caption-large">
+                                        <i class="material-symbols-outlined"> calendar_today </i>
+                                        <span class="tag-label font-caption-large">${formattedDate}</span>
+                                    </div>
+                                    <div class="avatar-group d-flex gap-1">
+                                        ${userAvatars}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    `;
+
+                // Adicionar o card ao container
+                cardContainer.insertAdjacentHTML('beforeend', cardHTML);
+                console.log("Card adicionado ao container");
+
+                // Fechar o modal
+                modal.style.display = 'none';
+
+                // Limpar os inputs
+                document.getElementById('taskStatusSelect').value = 'default';
+                document.getElementById('bucketSelect').value = 'default';
+                document.getElementById('taskDate').value = '';
+                searchInput.value = '';
+                selectedUsers = []; // Limpa seleção de usuários
+                const existingElements = document.querySelectorAll('.avatar, #addMore, span');
+                existingElements.forEach(element => element.remove());
+            };
+        });
+    </script>
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('createCardModal');
+            const btn = document.getElementById('createCardBtn');
+            const closeBtn = document.getElementsByClassName('close')[0];
+            const saveCardBtn = document.getElementById('saveCardBtn');
+            const cardContainer = document.getElementById('cardContainer');
+            const searchInput = document.getElementById('buscaAvatar');
+            const resultadoAvatar = document.getElementById('resultadoAvatar');
+
+            const suggestions = [
+                { name: "Marcus Pereira", initials: "MP", colorClass: "bg-secondary-orange" },
+                { name: "Maria Silva", initials: "MS", colorClass: "bg-support-blue-lt" },
+                { name: "João Souza", initials: "JS", colorClass: "bg-feedback-green" }
+            ];
+
+            let selectedUser = null;
+
+            // Abrir o modal ao clicar no botão
+            if (btn) {
+                btn.onclick = function () {
+                    modal.style.display = 'block';
+                };
+            }
+
+            // Fechar o modal ao clicar no "x"
+            if (closeBtn) {
+                closeBtn.onclick = function () {
+                    modal.style.display = 'none';
+                };
+            }
+
+            // Fechar o modal ao clicar fora dele
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            };
+
+            // Formatar data
+            function formatDate(dateStr) {
+                const date = new Date(dateStr);
+                return date.toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+            }
+
+            // Atualizar sugestões de busca
+            searchInput.addEventListener('input', function () {
+                const query = searchInput.value.toLowerCase();
+                resultadoAvatar.innerHTML = ''; // Limpa os resultados anteriores
+
+                const filteredSuggestions = suggestions.filter(item => item.name.toLowerCase().includes(query));
+
+                filteredSuggestions.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item.name;
+                    li.className = 'search-item';
+                    li.onclick = function () {
+                        searchInput.value = ''; // Limpa o campo de busca
+                        selectedUser = item; // Salva o usuário selecionado
+                        searchInput.style.display = 'none';
+
+                        // Mostra o avatar correspondente
+                        const avatarHTML = `
+                        <div class="avatar font-caption-small ${item.colorClass}">
+                            <span class="color-primary-white">${item.initials}</span>
+                        </div>
+                    `;
+                        resultadoAvatar.innerHTML = avatarHTML;
+                    };
+                    resultadoAvatar.appendChild(li);
+                });
+            });
+
+            // Salvar o card e adicionar ao container
+            saveCardBtn.onclick = function () {
+                const taskStatusSelect = document.getElementById('taskStatusSelect');
+                const bucketNameSelect = document.getElementById('bucketSelect');
+                const taskDate = document.getElementById('taskDate').value;
+
+                const taskStatus = taskStatusSelect.selectedOptions[0] ? taskStatusSelect.selectedOptions[0].text : '';
+                const bucketName = bucketNameSelect.selectedOptions[0] ? bucketNameSelect.selectedOptions[0].text : '';
+
+                if (taskStatus && bucketName && taskDate && selectedUser) {
+                    const formattedDate = formatDate(taskDate);
+
+                    // Criar a estrutura HTML do card
+                    const cardHTML = `
+                    <li class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span class="font-caption-medium">${taskStatus}</span>
+                            <button class="btn pd-0">
+                                <i class="material-symbols-outlined font-size-title-large fw-bold">more_horiz</i>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-container">
+                                <div class="nome-tarefa font-caption-large">
+                                    <span>${bucketName}</span>
+                                </div>
+                                <div class="tag bg-primary-yellow bd-r-4 mg-t-16 corner-4">
+                                    <span class="tag-label font-caption-medium">Itaú Shop</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <div class="tag-icon pd-0 font-caption-large">
+                                    <i class="material-symbols-outlined">calendar_today</i>
+                                    <span class="tag-label font-caption-large">${formattedDate}</span>
+                                </div>
+                                <div class="avatar-group d-flex gap-1">
+                                    <div class="avatar font-caption-small ${selectedUser.colorClass}">
+                                        <span class="color-primary-white">${selectedUser.initials}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                `;
+
+                    // Adicionar o card ao container
+                    cardContainer.insertAdjacentHTML('beforeend', cardHTML);
+
+                    // Fechar o modal
+                    modal.style.display = 'none';
+
+                    // Limpar os inputs
+                    document.getElementById('taskStatusSelect').value = 'default';
+                    document.getElementById('bucketSelect').value = 'default';
+                    document.getElementById('taskDate').value = '';
+                    searchInput.style.display = 'block';  // Mostra o campo de busca novamente
+                    resultadoAvatar.innerHTML = '';         // Limpa o avatar/nome exibido
+                    selectedUser = null;                  // Reseta o usuário selecionado
+                }
+            };
+        });
+    </script> -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill-mention@2.1.3/dist/quill.mention.min.js"></script>
+</body>
+</html>
